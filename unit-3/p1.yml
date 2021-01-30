@@ -1,0 +1,14 @@
+- hosts: all
+  gather_facts: false
+  tasks:
+   - file:
+       path: /tmp/test
+       state: directory
+   - copy:
+       src: /etc/fstab
+       dest: /tmp/test
+   - service:
+         name: crond
+         state: restarted
+
+  

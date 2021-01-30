@@ -1,0 +1,44 @@
+- hosts: web
+  tasks:
+    - name: install httpd
+      yum:
+        name: 
+          - httpd
+          - firewalld
+        state: installed
+
+
+    - name: start firewalld
+      service:
+            name: firewalld
+            state: started
+
+
+    - name: create index.html page
+      copy:
+          content: "hellworld"
+          dest: /var/www/html/index.html
+
+
+    - name: Ensure the default Apache port is 8080
+      lineinfile:
+         path: /etc/httpd/conf/httpd.conf
+         regexp: '^Listen '
+         insertafter: '^#Listen '
+         line: Listen 8080
+
+    - name: whitelist  8080 port into firewalld
+      firewalld:
+         port: 8080/tcp
+         permanent: yes
+         state: enabled
+         immediate: true
+    - name: start httpd
+      service:
+          name: httpd
+          state: started
+          enabled: true 
+
+ 
+ 
+         

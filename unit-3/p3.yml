@@ -1,0 +1,39 @@
+- name: Deploying Webserver
+  hosts: 
+    - web
+    - dev
+  user: root
+  gather_facts: false
+  tasks:
+   - name: Create Directory /tmp/test
+     file:
+       path: /tmp/test
+       state: directory
+
+   - name: Copy /etc/fstab  file into /tmp/test
+     copy:
+       src: /etc/fstab
+       dest: /tmp/test
+
+   - name: Restart Service crond
+     service:
+         name: crond
+         state: restarted
+
+- name: Deploy Ftp server
+  hosts: dev
+  user: admin
+  become: true
+  become_user: root
+  gather_facts: false
+  tasks:
+    - name: add group
+      group:
+          name: guests
+          state: present
+
+    - name: add user and assign guests group
+      user:
+           name: ravi
+           state: present
+           group: guests

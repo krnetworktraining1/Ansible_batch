@@ -1,0 +1,28 @@
+- name: Deploying Webserver
+  hosts: all
+  tasks:
+     - name: Example of Single line  formate
+       file: path=/tmp/test state=directory mode=0777 owner=root group=root 
+ 
+ 
+     - name: Example of Multi Line format
+       file:  path=/tmp/test
+              state=directory
+              mode=0777
+              owner=root
+              group=root
+
+
+
+     - name: Example of dicrtionary format 
+       file:
+           path: /tmp/test
+           state: directory
+           mode: 0777
+           owner: root
+           group: root
+
+
+
+
+

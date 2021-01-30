@@ -1,0 +1,28 @@
+- name: Deploying Webserver
+  hosts: all
+  gather_facts: false
+  tasks:
+   - name: Create Directory /tmp/test
+     file:
+       path: /tmp/test
+       state: directory
+
+
+
+   - name: Copy /etc/fstab  file into /tmp/test
+     copy:
+       src: /etc/fstab
+       dest: /tmp/test
+
+
+
+   - name: Restart Service crond
+     service:
+         name: crond
+         state: restarted
+
+  
+
+
+   - name: include  apache  file
+     import_tasks:   /home/admin/playbooks/apache.yml 
