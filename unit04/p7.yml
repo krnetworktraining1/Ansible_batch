@@ -1,0 +1,16 @@
+- name: Example of  Setup in playbook 
+  hosts: all
+  tasks:
+     - name: Storage Kernel Version into /etc/motd
+       copy:
+           content: "Hello your kernel version is {{ ansible_kernel }}" 
+           dest: /etc/motd
+
+
+
+     - name: Storage ipaddress &  fqdn and  hostname
+       lineinfile:
+           line: "{{ ansible_ens38.ipv4.address }} {{ ansible_fqdn }} {{ ansible_hostname }}"
+           dest: /etc/hosts
+
+

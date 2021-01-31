@@ -1,0 +1,10 @@
+- name: Example  of Playbook level  variable
+  hosts: web
+  vars:
+     myuser: ram
+     mypass: redhat
+  tasks:
+    - name: add user and apply password
+      user:
+           name: "{{ myuser }}"
+           password: "{{ mypass }}"

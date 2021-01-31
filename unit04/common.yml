@@ -1,0 +1,4 @@
+web: httpd
+web_root: /var/www/html
+app: krnetwork-2.0.0.war
+

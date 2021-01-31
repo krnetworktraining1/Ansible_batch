@@ -1,0 +1,24 @@
+- name: Example  of Playbook level  variable
+  hosts: web
+  tasks:
+   
+     - include_vars: /home/admin/unit04/common.yml
+
+     - name: install package
+       yum:
+          name: "{{ web }}"
+          state: installed
+
+     - name: create documentRoot
+       file:
+            path: "{{ web_root }}"
+            state: directory
+
+
+     - name: Create index.html page inside  "{{ web_root }}"
+       copy:
+            content: "Hello Variable"
+            dest: "{{ web_root }}/index.html"
+
+     - debug:
+            var: app 

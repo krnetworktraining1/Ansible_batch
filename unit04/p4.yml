@@ -1,0 +1,20 @@
+- hosts: all
+  tasks:
+   - debug:
+         var: web_root
+
+
+   - name: Create document root
+     file:
+        path: "{{ web_root }}"
+        state: directory
+
+   - debug:
+       var: java_version
+
+   - name: install java
+     yum:
+         name: "{{ java_version }}"
+         state: installed
+
+

@@ -1,0 +1,16 @@
+- name: Example  of Playbook level  variable
+  hosts: web
+  vars_prompt:
+         - name: myuser
+           prompt: "Please give the username"
+           private: no
+
+         - name: mypass
+           prompt: "Please give the password"
+           private: yes
+           
+  tasks:
+    - name: add user and apply password
+      user:
+           name: "{{ myuser }}"
+           password: "{{ mypass | password_hash('sha256') }}"
