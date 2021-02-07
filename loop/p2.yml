@@ -1,0 +1,49 @@
+- name: Example of Simple Loop
+  hosts: all
+  tasks:
+    - name: Add user ravi&Manish&Ram&Shyam
+      user:
+          name: "{{ item }}"
+          state: present
+      with_items:
+        - ravi
+        - shyam
+        - manish
+        - ram
+
+    - name: Copy multiple files
+      copy:
+          src: "{{ item }}"
+          dest: /tmp
+      with_items:
+       - /etc/passwd
+       - /etc/fstab
+       - /etc/group
+
+
+    - name: Copy /etc/passwd into  multiple directory
+      copy:
+          src: /etc/passwd
+          dest: "{{ item }}"
+      with_items:
+            - /tmp
+            - /opt
+            - /root
+
+    - name: yum with  loop
+      yum:
+          name: "{{ item }}" 
+          state: installed
+      with_items:
+            - ftp
+            - httpd
+            - vsftpd
+
+    - name: yum without loop
+      yum:
+          name: 
+             - ftp
+             - httpd
+             - vsftpd
+          state: installed 
+

@@ -1,0 +1,29 @@
+- name: Example of Condition
+  hosts: all
+  become: true
+  gather_facts: true
+  tasks:
+     - name: install the package only on Redhat system 
+       yum:
+            name: ftp
+            state: installed
+       when: ansible_distribution == 'RedHat'
+
+     - name: Install the package on debain
+       apt:
+           name: ftp
+           state: installed
+       when: ansible_distribution == 'Ubuntu'
+
+     - name: install the package only on Redhat8 system 
+       yum:
+            name: vsftpd
+            state: installed
+       when: ansible_distribution == 'RedHat' and ansible_distribution_major_version == '8'
+
+     - name: install the package only on Redhat or  centos  system 
+       yum:
+            name: wget
+            state: installed
+       when: ansible_distribution == 'RedHat' or  ansible_distribution == 'CentOs'
+

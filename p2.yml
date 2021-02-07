@@ -1,0 +1,10 @@
+- name: Example of Condition
+  hosts: all
+  become: true
+  gather_facts: true
+  tasks:
+    - name: install mariadb-server
+      yum:
+          name: mariadb-server
+          state: installed
+      when: ansible_memtotal_mb < '2048'

@@ -1,0 +1,11 @@
+- name: Example of Simple Loop
+  hosts: all
+  vars_files: 
+        -  /home/admin/loop/user_list.yml
+  tasks:
+    - name: Add user ravi&Manish&Ram&Shyam
+      user:
+          name: "{{ item }}"
+          state: present
+      with_items:
+             - "{{ myusers }}"

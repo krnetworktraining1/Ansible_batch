@@ -1,0 +1,32 @@
+- name: Example of Block and Rescue
+  hosts: all
+  become: true
+  gather_facts: true
+  ignore_errors: yes
+  tasks:
+          - name: Install Database
+            yum:
+               name: mariadb-server
+               state: installed
+ 
+
+          - name: Start Database service
+            service:
+                  name: mariadb
+                  state: started
+          
+
+          - name: Configure databsae setting 
+            get_url:
+                   url: http://classroom.example.com/exam.sh
+                   dest: /root
+
+          - name: Excute file
+            shell: /root/exam.sh
+            
+
+          - name: Uninstall Package
+            yum:
+               name: mariadb-server 
+               state: absent
+            

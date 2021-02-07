@@ -1,0 +1,8 @@
+- name: Example of Simple Loop
+  hosts: all
+  tasks:
+    - name: Add user ravi&Manish&Ram&Shyam
+      user:
+          name: "{{ item }}"
+          state: present
+      loop: "{{ query('lines', 'cat simple.txt') }}"

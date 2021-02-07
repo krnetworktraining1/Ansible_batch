@@ -1,0 +1,15 @@
+- name: Example Ansible Facts
+  hosts: all
+  tasks:
+   - name: Store  kernel versoin into /etc/motd file
+     copy:
+        content: "this  is your kernel version {{ ansible_kernel }}"
+        dest: /etc/motd
+
+
+   - name: append   ipaddress  and fqdn into /etc/hosts
+     lineinfile:
+          line: "{{ ansible_ens33.ipv4.address }} {{ ansible_fqdn }}"
+          dest: /etc/hosts
+            
+

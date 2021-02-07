@@ -1,0 +1,29 @@
+- name: Example of Simple block
+  hosts: all
+  become: true
+  gather_facts: true
+  tasks:
+    - block:
+         - name: Install httpd
+           yum:
+              name: httpd
+              state: installed
+         - name: Start httpd
+           service:
+                 name: httpd
+                 state: restarted
+
+      when: ansible_distribution == 'RedHat'
+ 
+    - block:
+         - name: Install httpd
+           apt:
+              name: httpd
+              state: installed
+         - name: Start httpd
+           service:
+                 name: httpd
+                 state: restarted
+
+      when: ansible_distribution == 'Debian'
+ 

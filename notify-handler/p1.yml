@@ -1,0 +1,51 @@
+- name:  Example Notify and handlers
+  hosts: all
+  tasks:
+     - name: install httpd
+       yum:
+          name: httpd
+          state: latest
+       notify: rebootmachine
+ 
+
+     - name: deploy conf  file
+       copy:
+               src: httpd.conf
+               dest: /etc/httpd/conf.d/apache.conf
+       notify: 
+         - restart_apache
+         - mail_to
+
+
+     - name: simple tasks
+       file:
+             path: /tmp/abc
+             state: touch
+
+
+  handlers:
+    - name: Restart apache Service
+      service:
+            name: httpd
+            state: restarted
+      listen: restart_apache 
+
+    - name: send email only localhost
+      command: mail -s "Testing" root@localhost
+      listen: mail_to
+      delegate_to: localhost
+
+    - name: machinereboot
+      command: shutdown  -r  now 
+      poll: 0
+      async: 1
+
+    - name: Wait 300 seconds for port 22 to become open and contain "OpenSSH"
+      wait_for:
+         port: 22
+         host: '{{ (ansible_ssh_host|default(ansible_host))|default(inventory_hostname) }}'
+         search_regex: OpenSSH
+         delay: 10
+      connection: local
+      delegate_to: localhost
+

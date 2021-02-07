@@ -1,0 +1,21 @@
+- name: Example of condition
+  hosts: all
+  become: true
+  tasks:
+    - name: First check file state
+      stat:
+           path: /etc/exam.conf
+      register: file
+
+
+    - debug:
+         var: file.stat.exists
+
+
+
+    - name: Create file with if does not exists
+      copy:
+        content: "Ex294 Exam"
+        dest: /etc/exam.conf
+      when: file.stat.exists == false
+

@@ -1,0 +1,10 @@
+- name: Example of Vault use case
+  hosts: all
+  vars_files:
+           - /home/admin/vault/crypt.yml
+  tasks:
+    - name: apply  user password
+      user:
+         name: ravi
+         password: "{{ mypass | password_hash('sha512')}}"
+

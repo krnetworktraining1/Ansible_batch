@@ -1,0 +1,17 @@
+- name: Example of Ignore Errors
+  hosts: all
+  become: true
+  tasks:
+     - name: Service status 
+       command: systemctl is-active  crond
+       register: svc
+       ignore_errors: yes
+
+
+
+     - name: Start Service if is not  ruuning 
+       service:
+             name: crond
+             state: started
+       when: svc.rc != 0
+

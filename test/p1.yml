@@ -1,0 +1,53 @@
+- name: Example of notify and handlers
+  hosts: all
+  become: true
+  tasks:
+    - name:  Upgrade httpd
+      yum:
+        name: httpd
+        state: latest
+      notify: restart_apache
+      when:  ansible_distribution == 'RedHat'
+    - name:  Upgrade httpd for debain
+      apt:
+        name: httpd
+        state: latest
+      notify: restart_apache_deb
+      when:  ansible_distribution == 'Debain'
+
+
+    - name: Deploy  application
+      copy:
+           src: main.cf
+           dest: /etc/postfix/main.cf
+      notify: restart_postfix
+
+
+    - name: Normal Tasks 
+      file:
+           path: /tmp/abc
+           state: touch
+      notify:
+         - restart_postfix
+         - restart_apache
+ 
+  handlers:
+
+      - name: httpd restart
+        service:
+            name: httpd
+            state: restarted
+        listen: restart_apache 
+
+      - name: httpd restart
+        service:
+            name: httpd
+            state: restarted
+        listen: restart_apache_deb
+
+      - name: restart_postfix
+
+      - name: restart_postfix
+        service:
+            name: postfix
+            state: restarted
