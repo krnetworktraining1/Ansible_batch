@@ -9,7 +9,7 @@
 
    - name: append   ipaddress  and fqdn into /etc/hosts
      lineinfile:
-          line: "{{ ansible_ens33.ipv4.address }} {{ ansible_fqdn }}"
+          line: "{{ ansible_default_ipv4.address }} {{ ansible_fqdn }}"
           dest: /etc/hosts
             
 
